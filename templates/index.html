@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TikTok Data Viewer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        .header-section {
+            margin-bottom: 30px;
+        }
+        th {
+            white-space: nowrap;
+        }
+        td {
+            vertical-align: middle;
+        }
+        .table thead th {
+            font-size: 14px;
+            padding: 10px 12px;
+        }
+        .table tbody td {
+            font-size: 14px;
+            padding: 10px 12px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="header-section text-center">
+            <h1 class="mb-3">TikTok Video Insights Dashboard</h1>
+            <p class="lead text-muted">This table displays video data scraped from TikTok, including views, likes, and comments.</p>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Description</th>
+                        <th>Views</th>
+                        <th>Likes</th>
+                        <th>Comments</th>
+                        <th>Video</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.username }}</td>
+                        <td>{{ row.description }}</td>
+                        <td>{{ row.views }}</td>
+                        <td>{{ row.likes }}</td>
+                        <td>{{ row.comments }}</td>
+                        <td><a href="{{ row.video_url }}" target="_blank">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+

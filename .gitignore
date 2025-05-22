@@ -1,0 +1,26 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# Environment
+.env
+.venv/
+venv/
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# JSON or data exports
+*.json
+
+# Secrets or credentials (if stored locally)
+*.key
+*.pem
+*.crt
+
+# MySQL dumps
+*.sql
