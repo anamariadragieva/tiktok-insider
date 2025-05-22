@@ -37,6 +37,11 @@
             <p class="lead text-muted">This table displays video data scraped from TikTok, including views, likes, and comments.</p>
         </div>
 
+        <div class="mb-4 text-center">
+            <input type="text" id="search-keyword" class="form-control d-inline w-50" placeholder="Enter search keyword, for example 'ai tools' ">
+            <button id="fetch-btn" class="btn btn-primary ms-2">Search Keyword Results</button>
+        </div>
+
         <div class="table-container">
             <table class="table table-hover mb-0">
                 <thead class="table-dark">
@@ -50,7 +55,7 @@
                         <th>Video</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="results-body">
                     {% for row in data %}
                     <tr>
                         <td>{{ row.id }}</td>
@@ -66,6 +71,51 @@
             </table>
         </div>
     </div>
+
+    <script>
+    document.getElementById('fetch-btn').addEventListener('click', () => {
+        const keyword = document.getElementById('search-keyword').value.trim();
+
+        if (!keyword) {
+            alert('Please enter a search keyword');
+            return;
+        }
+
+        fetch(`/fetch_data?keyword=${encodeURIComponent(keyword)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not OK');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tbody = document.getElementById('results-body');
+                tbody.innerHTML = ''; // Clear previous results
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center">No results found</td></tr>';
+                    return;
+                }
+
+                data.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.username || ''}</td>
+                        <td>${item.description || ''}</td>
+                        <td>${item.views || 0}</td>
+                        <td>${item.likes || 0}</td>
+                        <td>${item.comments || 0}</td>
+                        <td><a href="${item.video_url || '#'}" target="_blank">View</a></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert('Failed to fetch data');
+            });
+    });
+    </script>
 </body>
 </html>
-
